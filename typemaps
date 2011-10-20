@@ -15,6 +15,15 @@ T_JS_GLOBAL_CONTEXT
      }
 
 
+T_JS_CONTEXT_GROUP
+     if (!gperl_sv_is_ref ($arg)) {
+          $var = NULL;
+     }
+     else {
+          $var = INT2PTR($type, SvIV(SvRV($arg)));
+     }
+
+
 
 OUTPUT
 

@@ -7,3 +7,12 @@ MODULE = JavaScriptCore::JSGlobalContext  PACKAGE = JavaScriptCore::JSGlobalCont
 JSGlobalContext JSGlobalContextCreate(SV *class)
     C_ARGS: /* FIXME need a JSClassRef */ NULL
 
+
+JSGlobalContext JSGlobalContextCreateInGroup(SV *class, JSContextGroup group)
+    C_ARGS: group, NULL /* fixme , JSClass globalObjectClass */
+
+
+void
+DESTROY(JSGlobalContext self)
+    CODE:
+        JSGlobalContextRelease(self);
