@@ -1,0 +1,14 @@
+lib/JavaScriptCore.pm
+Makefile.PL
+MANIFEST
+MANIFEST.SKIP
+README
+t/webkit.t
+COPYING
+Changes
+examples/jsc.pl
+maps
+jsc-perl.h
+xs/JSC.xs
+xs/Frame.xs
+typemaps

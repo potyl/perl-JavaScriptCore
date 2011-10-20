@@ -1,0 +1,28 @@
+TYPEMAP
+JSGlobalContext  T_JS_GLOBAL_CONTEXT
+JSContextGroup   T_JS_CONTEXT_GROUP
+
+
+
+INPUT
+
+T_JS_GLOBAL_CONTEXT
+     if (!gperl_sv_is_ref ($arg)) {
+          $var = NULL;
+     }
+     else {
+          $var = INT2PTR($type, SvIV(SvRV($arg)));
+     }
+
+
+
+OUTPUT
+
+T_JS_GLOBAL_CONTEXT
+     sv_setref_pv($arg, \"JavaScriptCore::JSGlobalContext\", (void * const) $var);
+     JSContextGroupRetain($var);
+
+
+T_JS_CONTEXT_GROUP
+     sv_setref_pv($arg, \"JavaScriptCore::JSContextGroup\", (void * const) $var);
+     JSContextGroupRetain($var);
