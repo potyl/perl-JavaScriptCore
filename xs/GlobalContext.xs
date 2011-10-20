@@ -4,11 +4,13 @@
 MODULE = JavaScriptCore::JSGlobalContext  PACKAGE = JavaScriptCore::JSGlobalContext  PREFIX = JSGlobalContext
 
 
-JSGlobalContext JSGlobalContextCreate(SV *class)
+JSGlobalContext
+JSGlobalContextCreate (SV *class)
     C_ARGS: /* FIXME need a JSClassRef */ NULL
 
 
-JSGlobalContext JSGlobalContextCreateInGroup(SV *class, JSContextGroup group)
+JSGlobalContext
+JSGlobalContextCreateInGroup (SV *class, JSContextGroup group)
     C_ARGS: group, NULL /* fixme , JSClass globalObjectClass */
 
 

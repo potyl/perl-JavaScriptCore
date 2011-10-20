@@ -4,7 +4,8 @@
 MODULE = JavaScriptCore::JSContextGroup  PACKAGE = JavaScriptCore::JSContextGroup  PREFIX = JSContextGroup
 
 
-JSContextGroup JSContextGroupCreate(SV *class)
+JSContextGroup
+SContextGroupCreate(SV *class)
     C_ARGS: /* empty */
 
 
