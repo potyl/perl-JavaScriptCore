@@ -15,6 +15,12 @@ JSGlobalContextCreateInGroup (SV *class, JSContextGroup group)
 
 
 void
-DESTROY(JSGlobalContext self)
+GarbageCollect (JSGlobalContext self)
+    CODE:
+        JSGarbageCollect(self);
+
+
+void
+DESTROY (JSGlobalContext self)
     CODE:
         JSGlobalContextRelease(self);
