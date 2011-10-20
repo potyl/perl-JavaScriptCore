@@ -6,6 +6,7 @@
 #include <JavaScriptCore/JavaScript.h>
 
 #define JSGlobalContext JSGlobalContextRef
+#define JSContextGroup  JSContextGroupRef
 
 #include "jsc-autogen.h"
 
