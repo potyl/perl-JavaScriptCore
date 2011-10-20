@@ -15,6 +15,9 @@ BEGIN {
 sub main {
     my $context = JavaScriptCore::JSGlobalContext->Create();
     isa_ok($context, 'JavaScriptCore::JSGlobalContext');
+
+    $context->GarbageCollect();
+
     return 0;
 }
 
