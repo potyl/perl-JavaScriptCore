@@ -5,7 +5,7 @@ MODULE = JavaScriptCore::JSContextGroup  PACKAGE = JavaScriptCore::JSContextGrou
 
 
 JSContextGroup
-SContextGroupCreate(SV *class)
+JSContextGroupCreate(SV *class)
     C_ARGS: /* empty */
 
 
