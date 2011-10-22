@@ -29,7 +29,7 @@ use Data::Dumper;
 sub main {
     my ($file) = @ARGV or die "Usage: $0 FILE\n";
     
-    my $context = JavaScriptCore::JSGlobalContext->Create();
+    my $context = JavaScriptCore::JSContext->Create();
     
     print "Ok\n";
     return 0;

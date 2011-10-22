@@ -13,8 +13,8 @@ BEGIN {
 
 
 sub main {
-    my $context = JavaScriptCore::JSGlobalContext->Create();
-    isa_ok($context, 'JavaScriptCore::JSGlobalContext');
+    my $context = JavaScriptCore::JSContext->Create();
+    isa_ok($context, 'JavaScriptCore::JSContext');
 
     $context->GarbageCollect();
 
