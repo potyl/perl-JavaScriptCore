@@ -17,7 +17,8 @@ sub main {
     isa_ok($context, 'JavaScriptCore::JSContext');
 
     my $val = $context->MakeUndefined();
-    print Dumper($val);
+    ok($val->IsUndefined, "Is undefined");
+    is($val->GetType, "undefined", "Is undefined type");
 
     $context->GarbageCollect();
 
