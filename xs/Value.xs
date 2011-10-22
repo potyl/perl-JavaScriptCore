@@ -1,6 +1,9 @@
 #include "jsc-perl.h"
 
 
+#define RET_BOOL(exp) RETVAL = (exp) ? &PL_sv_yes : &PL_sv_no
+
+
 MODULE = JavaScriptCore::JSContext  PACKAGE = JavaScriptCore::JSContext  PREFIX = JSContext
 
 
@@ -63,10 +66,52 @@ GetType (JSPValue *self)
 SV*
 IsUndefined (JSPValue *self)
     CODE:
-        RETVAL = JSValueIsUndefined(self->ctx, self->val)
-            ? &PL_sv_yes
-            : &PL_sv_no
-        ;
+        RET_BOOL(JSValueIsUndefined(self->ctx, self->val));
+
+    OUTPUT:
+        RETVAL
+
+
+SV*
+IsNull (JSPValue *self)
+    CODE:
+        RET_BOOL(JSValueIsNull(self->ctx, self->val));
+
+    OUTPUT:
+        RETVAL
+
+
+SV*
+IsBoolean (JSPValue *self);
+    CODE:
+        RET_BOOL(JSValueIsBoolean(self->ctx, self->val));
+
+    OUTPUT:
+        RETVAL
+
+
+SV*
+IsNumber (JSPValue *self);
+    CODE:
+        RET_BOOL(JSValueIsNumber(self->ctx, self->val));
+
+    OUTPUT:
+        RETVAL
+
+
+SV*
+IsString (JSPValue *self);
+    CODE:
+        RET_BOOL(JSValueIsString(self->ctx, self->val));
+
+    OUTPUT:
+        RETVAL
+
+
+SV*
+IsObject (JSPValue *self);
+    CODE:
+        RET_BOOL(JSValueIsObject(self->ctx, self->val));
 
     OUTPUT:
         RETVAL

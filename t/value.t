@@ -17,8 +17,13 @@ sub main {
     isa_ok($context, 'JavaScriptCore::JSContext');
 
     my $val = $context->MakeUndefined();
-    ok($val->IsUndefined, "Is undefined");
-    is($val->GetType, "undefined", "Is undefined type");
+    ok($val->IsUndefined, "undefined is undefined ?");
+    is($val->GetType, "undefined", "undefine type");
+    ok(!$val->IsNull, "undefined is null?");
+    ok(!$val->IsBoolean, "undefined is boolean?");
+    ok(!$val->IsNumber, "undefined is number?");
+    ok(!$val->IsString, "undefined is string?");
+    ok(!$val->IsObject, "undefined is object?");
 
     $context->GarbageCollect();
 
