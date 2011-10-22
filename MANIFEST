@@ -3,7 +3,7 @@ Makefile.PL
 MANIFEST
 MANIFEST.SKIP
 README
-t/global-context.t
+t/context.t
 t/context-group.t
 COPYING
 Changes

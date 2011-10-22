@@ -1,17 +1,27 @@
 #include "jsc-perl.h"
 
 
-MODULE = JavaScriptCore::JSGlobalContext  PACKAGE = JavaScriptCore::JSGlobalContext  PREFIX = JSGlobalContext
+MODULE = JavaScriptCore::JSContext  PACKAGE = JavaScriptCore::JSContext  PREFIX = JSContext
 
 
-JSGlobalContext
-JSGlobalContextCreate (SV *class)
-    C_ARGS: /* FIXME need a JSClassRef */ NULL
+JSContext
+JSContextCreate (SV *class)
+    CODE:
+        /* FIXME need a JSClassRef */
+        RETVAL = JSGlobalContextCreate(NULL);
+
+    OUTPUT:
+        RETVAL
 
 
-JSGlobalContext
-JSGlobalContextCreateInGroup (SV *class, JSContextGroup group)
-    C_ARGS: group, NULL /* fixme , JSClass globalObjectClass */
+JSContext
+JSContextCreateInGroup (SV *class, JSContextGroup group)
+    CODE:
+        /* FIXME JSClass globalObjectClass */
+        RETVAL = JSGlobalContextCreateInGroup(group, NULL);
+
+    OUTPUT:
+        RETVAL
 
 
 void

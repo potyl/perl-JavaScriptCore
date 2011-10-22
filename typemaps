@@ -58,7 +58,7 @@ T_JS_CONTEXT_GROUP
 
 T_JS_CONTEXT
      sv_setref_pv($arg, \"JavaScriptCore::JSContext\", (void * const) $var);
-     JSGlobalContextRetain($var);
+     JSGlobalContextRetain((JSGlobalContextRef) $var);
 
 
 T_JS_VALUE
