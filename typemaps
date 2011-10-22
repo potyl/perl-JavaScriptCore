@@ -58,7 +58,7 @@ T_JS_CONTEXT_GROUP
 
 T_JS_CONTEXT
      sv_setref_pv($arg, \"JavaScriptCore::JSContext\", (void * const) $var);
-     /* There's not matching retain */
+     JSGlobalContextRetain($var);
 
 
 T_JS_VALUE
