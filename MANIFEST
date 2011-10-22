@@ -11,7 +11,7 @@ examples/jsc.pl
 maps
 jsc-perl.h
 xs/ContextGroup.xs
-xs/GlobalContext.xs
+xs/Context.xs
 xs/Value.xs
 xs/JSC.xs
 typemaps
