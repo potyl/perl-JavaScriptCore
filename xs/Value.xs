@@ -15,8 +15,108 @@ MakeUndefined (JSContext ctx)
     CODE:
         Newxz(p_value, 1, JSPValue);
         p_value->ctx = ctx;
-        p_value->val = JSValueMakeUndefined(ctx);
         JSGlobalContextRetain((JSGlobalContextRef) p_value->ctx);
+
+        p_value->val = JSValueMakeUndefined(ctx);
+        RETVAL = p_value;
+
+    OUTPUT:
+        RETVAL
+
+
+JSPValue*
+MakeNull (JSContext ctx)
+    PREINIT:
+        JSPValue *p_value;
+
+    CODE:
+        Newxz(p_value, 1, JSPValue);
+        p_value->ctx = ctx;
+        JSGlobalContextRetain((JSGlobalContextRef) p_value->ctx);
+
+        p_value->val = JSValueMakeNull(ctx);
+        RETVAL = p_value;
+
+    OUTPUT:
+        RETVAL
+
+
+JSPValue*
+MakeBoolean (JSContext ctx, bool value)
+    PREINIT:
+        JSPValue *p_value;
+
+    CODE:
+        Newxz(p_value, 1, JSPValue);
+        p_value->ctx = ctx;
+        JSGlobalContextRetain((JSGlobalContextRef) p_value->ctx);
+
+        p_value->val = JSValueMakeBoolean(ctx, value);
+        RETVAL = p_value;
+
+    OUTPUT:
+        RETVAL
+
+
+JSPValue*
+MakeNumber (JSContext ctx, double value)
+    PREINIT:
+        JSPValue *p_value;
+
+    CODE:
+        Newxz(p_value, 1, JSPValue);
+        p_value->ctx = ctx;
+        JSGlobalContextRetain((JSGlobalContextRef) p_value->ctx);
+
+        p_value->val = JSValueMakeNumber(ctx, value);
+        RETVAL = p_value;
+
+    OUTPUT:
+        RETVAL
+
+
+JSPValue*
+MakeString (JSContext ctx, SV *value)
+    PREINIT:
+        JSPValue *p_value;
+        JSStringRef js_string;
+        const JSChar *str;
+        size_t len;
+
+    CODE:
+        Newxz(p_value, 1, JSPValue);
+        p_value->ctx = ctx;
+        JSGlobalContextRetain((JSGlobalContextRef) p_value->ctx);
+
+        str = (const JSChar *) SvPV(value, len);
+        js_string = JSStringCreateWithCharacters(str, len);
+        p_value->val = JSValueMakeString(ctx, js_string);
+        JSStringRelease(js_string);
+
+        RETVAL = p_value;
+
+    OUTPUT:
+        RETVAL
+
+
+JSPValue*
+MakeFromJSONString (JSContext ctx, SV *value)
+    PREINIT:
+        JSPValue *p_value;
+        JSStringRef js_string;
+        const JSChar *str;
+        size_t len;
+
+    CODE:
+        Newxz(p_value, 1, JSPValue);
+        p_value->ctx = ctx;
+        JSGlobalContextRetain((JSGlobalContextRef) p_value->ctx);
+
+        str = (const JSChar *) SvPV(value, len);
+        js_string = JSStringCreateWithCharacters(str, len);
+        p_value->val = JSValueMakeFromJSONString(ctx, js_string);
+        JSStringRelease(js_string);
+
         RETVAL = p_value;
 
     OUTPUT:
