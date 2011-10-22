@@ -5,6 +5,7 @@ MANIFEST.SKIP
 README
 t/context.t
 t/context-group.t
+t/value.t
 COPYING
 Changes
 examples/jsc.pl

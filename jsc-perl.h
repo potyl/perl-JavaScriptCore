@@ -12,4 +12,9 @@
 
 #include "jsc-autogen.h"
 
+typedef struct _JSPValue {
+    JSContext ctx;
+    JSValue   val;
+} JSPValue;
+
 #endif /* _JSC_PERL_H_ */

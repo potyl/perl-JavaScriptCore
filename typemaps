@@ -2,8 +2,7 @@ TYPEMAP
 JSGlobalContext  T_JS_GLOBAL_CONTEXT
 JSContextGroup   T_JS_CONTEXT_GROUP
 JSContext        T_JS_CONTEXT
-JSValue          T_JS_VALUE
-
+JSPValue*        T_JSP_VALUE
 
 INPUT
 
@@ -34,14 +33,13 @@ T_JS_CONTEXT
      }
 
 
-T_JS_VALUE
+T_JSP_VALUE
      if (!gperl_sv_is_ref ($arg)) {
           $var = NULL;
      }
      else {
           $var = INT2PTR($type, SvIV(SvRV($arg)));
      }
-
 
 
 OUTPUT
@@ -61,6 +59,7 @@ T_JS_CONTEXT
      JSGlobalContextRetain((JSGlobalContextRef) $var);
 
 
-T_JS_VALUE
+T_JSP_VALUE
      sv_setref_pv($arg, \"JavaScriptCore::JSValue\", (void * const) $var);
-     JSValueProtect(ctx, $var);
+     JSGlobalContextRetain((JSGlobalContextRef) $var->ctx);
+     JSValueProtect(ctx, $var->val);

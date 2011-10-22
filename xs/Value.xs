@@ -4,32 +4,28 @@
 MODULE = JavaScriptCore::JSContext  PACKAGE = JavaScriptCore::JSContext  PREFIX = JSContext
 
 
+JSPValue*
+MakeUndefined (JSContext ctx)
+    PREINIT:
+        JSPValue *p_value;
 
-JSValue
-JSValueMakeUndefined(JSContext ctx)
-    C_ARGS: ctx
+    CODE:
+        Newxz(p_value, 1, JSPValue);
+        p_value->ctx = ctx;
+        p_value->val = JSValueMakeUndefined(ctx);
+        JSGlobalContextRetain((JSGlobalContextRef) p_value->ctx);
+        RETVAL = p_value;
 
-
-JSValue
-JSValueMakeNull(JSContext ctx)
-    C_ARGS: ctx
-
-
-JSValue
-JSValueMakeBoolean(JSContext ctx, int val)
-    C_ARGS: ctx, val
-
-
-JSValue
-JSValueMakeNumber(JSContext ctx, double val)
-    C_ARGS: ctx, val
-
+    OUTPUT:
+        RETVAL
 
 
 MODULE = JavaScriptCore::JSValue  PACKAGE = JavaScriptCore::JSValue  PREFIX = JSValue
 
 
 void
-DESTROY (JSValue self)
+DESTROY (JSPValue *self)
     CODE:
-        /* FIXME pass the context JSValueUnprotect(self); */
+        JSValueUnprotect(self->ctx, self->val);
+        JSGlobalContextRelease((JSGlobalContextRef) self->ctx);
+        Safefree(self);
