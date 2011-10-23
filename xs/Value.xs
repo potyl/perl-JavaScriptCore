@@ -217,6 +217,34 @@ IsObject (JSPValue *self);
         RETVAL
 
 
+SV*
+CreateJSONString (JSPValue *self, int indent = 0)
+    PREINIT:
+        JSValueRef exception;
+        JSStringRef json;
+
+    CODE:
+        exception = NULL;
+
+        json = JSValueCreateJSONString(self->ctx, self->val, indent, &exception);
+        if (json == NULL) {
+            RETVAL = &PL_sv_undef;
+        }
+        else {
+            char *str;
+            size_t size;
+
+            size = JSStringGetMaximumUTF8CStringSize(json);
+            Newxz(str, size, char);
+            JSStringGetUTF8CString(json, str, size);
+            RETVAL = newSVpv(str, 0);
+            Safefree(str);
+        }
+
+    OUTPUT:
+        RETVAL
+
+
 void
 DESTROY (JSPValue *self)
     CODE:

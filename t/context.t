@@ -21,6 +21,7 @@ sub main {
     my $value = $context->EvaluateScript("2 + 4", undef, __FILE__, __LINE__);
     is($value->GetType, 'number', "EvaluateScript returned a number");
     ok($value->IsNumber, "EvaluateScript return value");
+    print Dumper($value->CreateJSONString());
 
     return 0;
 }
