@@ -36,7 +36,6 @@ EvaluateScript (JSContext ctx, SV *sv_script, SV *sv_this, SV *sv_src, int line)
         JSStringRef script;
         JSObjectRef thisObject;
         JSStringRef sourceURL;
-        int startingLineNumber;
         JSValueRef exception;
 
         const JSChar *str;
@@ -67,6 +66,36 @@ EvaluateScript (JSContext ctx, SV *sv_script, SV *sv_this, SV *sv_src, int line)
 
         p_value->val = value;
         RETVAL = p_value;
+
+    OUTPUT:
+        RETVAL
+
+
+SV*
+CheckScriptSyntax (JSContext ctx, SV *sv_script, SV *sv_src, int line)
+    PREINIT:
+        JSStringRef script;
+        JSStringRef sourceURL;
+        JSValueRef exception;
+
+        const JSChar *str;
+        size_t len;
+        bool value;
+
+    CODE:
+        str = (const JSChar *) SvPV(sv_script, len);
+        script = JSStringCreateWithCharacters(str, len);
+
+        str = (const JSChar *) SvPV(sv_script, len);
+        sourceURL = JSStringCreateWithCharacters(str, len);
+
+        exception = NULL;
+        value = JSCheckScriptSyntax(ctx, script, sourceURL, line, &exception);
+        JSStringRelease(script);
+        JSStringRelease(sourceURL);
+
+        /* FIXME raise an exception */
+        RETVAL = value ? &PL_sv_yes : &PL_sv_no;
 
     OUTPUT:
         RETVAL

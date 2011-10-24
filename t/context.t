@@ -23,6 +23,10 @@ sub main {
     ok($value->IsNumber, "EvaluateScript return value");
     print Dumper($value->CreateJSONString());
 
+    my $syntax_is_ok = $context->CheckScriptSyntax("function a() { return 1 }", __FILE__, __LINE__);
+    print Dumper($syntax_is_ok);
+    ok($syntax_is_ok, "Syntax is OK");
+
     return 0;
 }
 
