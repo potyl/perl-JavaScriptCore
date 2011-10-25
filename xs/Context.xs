@@ -38,19 +38,14 @@ EvaluateScript (JSContext ctx, SV *sv_script, SV *sv_this, SV *sv_src, int line)
         JSStringRef sourceURL;
         JSValueRef exception;
 
-        const JSChar *str;
-        size_t len;
         JSValueRef value;
         JSPValue *p_value;
 
     CODE:
-        str = (const JSChar *) SvPV(sv_script, len);
-        script = JSStringCreateWithCharacters(str, len);
-
+        script = JSStringCreateWithUTF8CString(SvPVutf8_nolen(sv_script));
         thisObject = NULL; /* FIXME use sv_this */
+        sourceURL = JSStringCreateWithUTF8CString(SvPVutf8_nolen(sv_src));
 
-        str = (const JSChar *) SvPV(sv_script, len);
-        sourceURL = JSStringCreateWithCharacters(str, len);
 
         exception = NULL;
 
@@ -77,17 +72,11 @@ CheckScriptSyntax (JSContext ctx, SV *sv_script, SV *sv_src, int line)
         JSStringRef script;
         JSStringRef sourceURL;
         JSValueRef exception;
-
-        const JSChar *str;
-        size_t len;
         bool value;
 
     CODE:
-        str = (const JSChar *) SvPV(sv_script, len);
-        script = JSStringCreateWithCharacters(str, len);
-
-        str = (const JSChar *) SvPV(sv_script, len);
-        sourceURL = JSStringCreateWithCharacters(str, len);
+        script = JSStringCreateWithUTF8CString(SvPVutf8_nolen(sv_script));
+        sourceURL = JSStringCreateWithUTF8CString(SvPVutf8_nolen(sv_src));
 
         exception = NULL;
         value = JSCheckScriptSyntax(ctx, script, sourceURL, line, &exception);
