@@ -46,14 +46,26 @@ EvaluateScript (JSContext ctx, SV *sv_script, SV *sv_this, SV *sv_src, int line)
         thisObject = NULL; /* FIXME use sv_this */
         sourceURL = JSStringCreateWithUTF8CString(SvPVutf8_nolen(sv_src));
 
-
         exception = NULL;
 
         value = JSEvaluateScript(ctx, script, thisObject, sourceURL, line, &exception);
         JSStringRelease(script);
         JSStringRelease(sourceURL);
 
-        /* FIXME raise an exception */
+        /* Raise an exception */
+        if (exception != NULL) {
+            char  *error;
+
+            /*
+            SV *err;
+            err = jsc_perl_js_value_to_sv(ctx, exception);
+            Perl_croak_sv(aTHX_ err);
+            */
+
+            error = jsc_perl_js_value_to_json(ctx, exception);
+            croak("%s", error);/* How can we throw an SV ? */
+            free(error);/* FIXME is this free called ? */
+        }
 
         Newxz(p_value, 1, JSPValue);
         p_value->ctx = ctx;
