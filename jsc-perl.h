@@ -17,4 +17,11 @@ typedef struct _JSPValue {
     JSValue   val;
 } JSPValue;
 
+
+const char* jsc_perl_get_type (JSContextRef ctx, JSValueRef value);
+char* jsc_perl_js_str_to_str (JSStringRef js_str);
+char* jsc_perl_js_value_to_json (JSContextRef ctx, JSValueRef value);
+SV* jsc_perl_js_value_to_sv (JSContextRef ctx, JSValueRef value);
+
+
 #endif /* _JSC_PERL_H_ */
