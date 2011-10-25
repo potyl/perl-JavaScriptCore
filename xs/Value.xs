@@ -245,6 +245,15 @@ CreateJSONString (JSPValue *self, int indent = 0)
         RETVAL
 
 
+SV*
+ToPerl (JSPValue *self)
+    CODE:
+        RETVAL = jsc_perl_js_value_to_sv(self->ctx, self->val);
+
+    OUTPUT:
+        RETVAL
+
+
 void
 DESTROY (JSPValue *self)
     CODE:
