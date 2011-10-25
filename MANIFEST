@@ -11,6 +11,7 @@ Changes
 examples/jsc.pl
 maps
 jsc-perl.h
+jsc-perl.c
 xs/ContextGroup.xs
 xs/Context.xs
 xs/Value.xs

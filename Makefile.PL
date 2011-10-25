@@ -63,6 +63,7 @@ sub main {
 
 	$DEPENDS->set_inc($pkgconfig{cflags} . ' -I./build');
 	$DEPENDS->set_libs($pkgconfig{libs});
+	$DEPENDS->add_c(File::Spec->catfile(cwd(), 'jsc-perl.c'));
 	$DEPENDS->add_xs(@XS_FILES);
 	$DEPENDS->add_typemaps(
 		File::Spec->catfile(cwd(), 'build', 'jsc.typemap'),
