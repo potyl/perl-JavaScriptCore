@@ -7,3 +7,5 @@ xs/*.o
 xs/*.c
 JavaScriptCore.bs
 build
+jsc
+jsc-perl.o
