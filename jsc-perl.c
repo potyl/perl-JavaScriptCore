@@ -59,7 +59,7 @@ jsc_perl_js_value_is_dom (JSContextRef ctx, JSValueRef value) {
     js_constructor = JSStringCreateWithUTF8CString("Node");
     constructor = JSValueToObject(ctx, JSObjectGetProperty(ctx, JSContextGetGlobalObject(ctx), js_constructor, NULL), NULL);
     JSStringRelease(js_constructor);
-    return JSValueIsInstanceOfConstructor(ctx, value, constructor, NULL);
+    return constructor != NULL ? JSValueIsInstanceOfConstructor(ctx, value, constructor, NULL) : 0;
 }
 
 
