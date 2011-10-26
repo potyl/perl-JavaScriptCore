@@ -1,7 +1,7 @@
 ^Makefile$
 ^Makefile[.]old$
 ^blib/
-^Gtk3-WebKit-
+^JavaScriptCore-.*[.]tar[.]gz$
 ^pm_to_blib$
 [.]gitignore
 ^[.]git/
