@@ -211,3 +211,37 @@ jsc_perl_js_value_to_sv (JSContextRef ctx, JSValueRef value) {
     return sv;
 }
 
+
+bool
+jsc_perl_sv_is_defined (SV *sv)
+{
+	/* This is copied from gperl_sv_is_defined in Glib's Glib.c */
+
+	if (!sv || !SvANY(sv))
+		return FALSE;
+
+	switch (SvTYPE(sv)) {
+	    case SVt_PVAV:
+		if (AvMAX(sv) >= 0 || SvGMAGICAL(sv)
+		    || (SvRMAGICAL(sv) && mg_find(sv, PERL_MAGIC_tied)))
+			return TRUE;
+		break;
+	    case SVt_PVHV:
+		if (HvARRAY(sv) || SvGMAGICAL(sv)
+		    || (SvRMAGICAL(sv) && mg_find(sv, PERL_MAGIC_tied)))
+			return TRUE;
+		break;
+	    case SVt_PVCV:
+		if (CvROOT(sv) || CvXSUB(sv))
+			return TRUE;
+		break;
+	    default:
+		if (SvGMAGICAL(sv))
+			mg_get(sv);
+		if (SvOK(sv))
+			return TRUE;
+	}
+
+	return FALSE;
+}
+
