@@ -47,7 +47,7 @@ sub test_evaluate {
     my $line;
     eval {
         $line = __LINE__ + 1;
-        $value = $ctx->EvaluateScript("+ 2 + ;", undef, __FILE__, $line);
+        $ctx->EvaluateScript("+ 2 + ;", undef, __FILE__, $line);
         1;
     } or do {
         my $error = $@ || '';
