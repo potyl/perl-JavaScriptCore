@@ -6,7 +6,6 @@ JavaScriptCore - WebKit's JavaScript engine
 
 =head1 SYNOPSIS
 
-	use Glib -init;
 	use JavaScriptCore;
 
 =head1 DESCRIPTION
@@ -18,21 +17,7 @@ This module provides the Perl bindings for WebKit's JavaScript engine.
 use warnings;
 use strict;
 
-use Glib::Object::Introspection;
-
-
 our $VERSION = '0.01';
-
-
-sub import {
-    my $class = shift;
-    my %args = @_;
-
-    $args{basename} = 'JavaScriptCore' unless exists $args{basename};
-    $args{version}  = '3.0'            unless exists $args{version};
-    $args{package}  = __PACKAGE__      unless exists $args{package};
-    Glib::Object::Introspection->setup(%args);
-}
 
 # XS stuff
 use base 'DynaLoader';
