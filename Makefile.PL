@@ -32,8 +32,6 @@ sub main {
 		%pkgconfig = ExtUtils::PkgConfig->find('javascriptcoregtk-3.0');
 		push @XS_FILES, <xs/*.xs>;
 		push @typemaps, 'maps';
-		push @deps, 'Glib';
-		$requires{Glib} = '1.000';
 	};
 	if (my $error = $@) {
 		warn "FAIL: ", $error;
