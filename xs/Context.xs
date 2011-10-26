@@ -31,25 +31,25 @@ GarbageCollect (JSGlobalContext self)
 
 
 JSPValue*
-EvaluateScript (JSContext ctx, SV *sv_script, SV *sv_this, SV *sv_src, int line);
+EvaluateScript (JSContext ctx, SV *sv_script, SV *sv_this = NULL, SV *sv_source = NULL, int line = 0);
     PREINIT:
         JSStringRef script;
         JSObjectRef thisObject;
-        JSStringRef sourceURL;
+        JSStringRef source;
         JSValueRef exception;
 
         JSValueRef value;
         JSPValue *p_value;
 
     CODE:
-        script = JSStringCreateWithUTF8CString(SvPVutf8_nolen(sv_script));
+        script = sv_script == NULL ? NULL : JSStringCreateWithUTF8CString(SvPVutf8_nolen(sv_script));
+        source = sv_source == NULL ? NULL : JSStringCreateWithUTF8CString(SvPVutf8_nolen(sv_source));
         thisObject = NULL; /* FIXME use sv_this */
-        sourceURL = JSStringCreateWithUTF8CString(SvPVutf8_nolen(sv_src));
 
         exception = NULL;
-        value = JSEvaluateScript(ctx, script, thisObject, sourceURL, line, &exception);
-        JSStringRelease(script);
-        JSStringRelease(sourceURL);
+        value = JSEvaluateScript(ctx, script, thisObject, source, line, &exception);
+        if (script != NULL) JSStringRelease(script);
+        if (source != NULL) JSStringRelease(source);
 
         /* Raise an exception */
         if (exception != NULL) {
@@ -85,21 +85,21 @@ EvaluateScript (JSContext ctx, SV *sv_script, SV *sv_this, SV *sv_src, int line)
 
 
 SV*
-CheckScriptSyntax (JSContext ctx, SV *sv_script, SV *sv_src, int line)
+CheckScriptSyntax (JSContext ctx, SV *sv_script, SV *sv_source = NULL, int line = 0)
     PREINIT:
         JSStringRef script;
-        JSStringRef sourceURL;
+        JSStringRef source;
         JSValueRef exception;
         bool value;
 
     CODE:
-        script = JSStringCreateWithUTF8CString(SvPVutf8_nolen(sv_script));
-        sourceURL = JSStringCreateWithUTF8CString(SvPVutf8_nolen(sv_src));
+        script = sv_script == NULL ? NULL : JSStringCreateWithUTF8CString(SvPVutf8_nolen(sv_script));
+        source = sv_source == NULL ? NULL : JSStringCreateWithUTF8CString(SvPVutf8_nolen(sv_source));
 
         exception = NULL;
-        value = JSCheckScriptSyntax(ctx, script, sourceURL, line, &exception);
-        JSStringRelease(script);
-        JSStringRelease(sourceURL);
+        value = JSCheckScriptSyntax(ctx, script, source, line, &exception);
+        if (script != NULL) JSStringRelease(script);
+        if (source != NULL) JSStringRelease(source);
 
         /* FIXME raise an exception */
         RETVAL = value ? &PL_sv_yes : &PL_sv_no;
