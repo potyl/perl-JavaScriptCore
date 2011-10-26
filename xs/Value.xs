@@ -13,7 +13,7 @@ MakeUndefined (JSContext ctx)
         JSPValue *p_value;
 
     CODE:
-        Newxz(p_value, 1, JSPValue);
+        p_value = malloc(sizeof(JSPValue));
         p_value->ctx = ctx;
         JSGlobalContextRetain((JSGlobalContextRef) p_value->ctx);
 
@@ -30,7 +30,7 @@ MakeNull (JSContext ctx)
         JSPValue *p_value;
 
     CODE:
-        Newxz(p_value, 1, JSPValue);
+        p_value = malloc(sizeof(JSPValue));
         p_value->ctx = ctx;
         JSGlobalContextRetain((JSGlobalContextRef) p_value->ctx);
 
@@ -47,7 +47,7 @@ MakeBoolean (JSContext ctx, bool value)
         JSPValue *p_value;
 
     CODE:
-        Newxz(p_value, 1, JSPValue);
+        p_value = malloc(sizeof(JSPValue));
         p_value->ctx = ctx;
         JSGlobalContextRetain((JSGlobalContextRef) p_value->ctx);
 
@@ -64,7 +64,7 @@ MakeNumber (JSContext ctx, double value)
         JSPValue *p_value;
 
     CODE:
-        Newxz(p_value, 1, JSPValue);
+        p_value = malloc(sizeof(JSPValue));
         p_value->ctx = ctx;
         JSGlobalContextRetain((JSGlobalContextRef) p_value->ctx);
 
@@ -84,7 +84,7 @@ MakeString (JSContext ctx, SV *value)
         size_t len;
 
     CODE:
-        Newxz(p_value, 1, JSPValue);
+        p_value = malloc(sizeof(JSPValue));
         p_value->ctx = ctx;
         JSGlobalContextRetain((JSGlobalContextRef) p_value->ctx);
 
@@ -108,7 +108,7 @@ MakeFromJSONString (JSContext ctx, SV *value)
         size_t len;
 
     CODE:
-        Newxz(p_value, 1, JSPValue);
+        p_value = malloc(sizeof(JSPValue));
         p_value->ctx = ctx;
         JSGlobalContextRetain((JSGlobalContextRef) p_value->ctx);
 
@@ -235,10 +235,10 @@ CreateJSONString (JSPValue *self, int indent = 0)
             size_t size;
 
             size = JSStringGetMaximumUTF8CStringSize(json);
-            Newxz(str, size, char);
+            str = malloc(size);
             JSStringGetUTF8CString(json, str, size);
             RETVAL = newSVpv(str, 0);
-            Safefree(str);
+            free(str);
         }
 
     OUTPUT:
@@ -259,4 +259,5 @@ DESTROY (JSPValue *self)
     CODE:
         JSValueUnprotect(self->ctx, self->val);
         JSGlobalContextRelease((JSGlobalContextRef) self->ctx);
-        Safefree(self);
+        free(self);
+

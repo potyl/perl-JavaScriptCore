@@ -47,7 +47,6 @@ EvaluateScript (JSContext ctx, SV *sv_script, SV *sv_this, SV *sv_src, int line)
         sourceURL = JSStringCreateWithUTF8CString(SvPVutf8_nolen(sv_src));
 
         exception = NULL;
-
         value = JSEvaluateScript(ctx, script, thisObject, sourceURL, line, &exception);
         JSStringRelease(script);
         JSStringRelease(sourceURL);
@@ -63,19 +62,26 @@ EvaluateScript (JSContext ctx, SV *sv_script, SV *sv_this, SV *sv_src, int line)
             */
 
             error = jsc_perl_js_value_to_json(ctx, exception);
+            printf("CROAK\n");
             croak("%s", error);/* How can we throw an SV ? */
             free(error);/* FIXME is this free called ? */
         }
 
-        Newxz(p_value, 1, JSPValue);
+        p_value = malloc(sizeof(JSPValue));
         p_value->ctx = ctx;
         JSGlobalContextRetain((JSGlobalContextRef) p_value->ctx);
 
         p_value->val = value;
         RETVAL = p_value;
 
+    POSTCALL:
+        printf("PostCall\n");
+
     OUTPUT:
         RETVAL
+
+    CLEANUP:
+        printf("cleanup\n");
 
 
 SV*
