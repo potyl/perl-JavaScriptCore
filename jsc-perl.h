@@ -1,7 +1,9 @@
 #ifndef _JSC_PERL_H_
 #define _JSC_PERL_H_
 
-#include <gperl.h>
+#include "EXTERN.h"
+#include "perl.h"
+#include "XSUB.h"
 
 #include <JavaScriptCore/JavaScript.h>
 
