@@ -26,9 +26,7 @@ sub main {
 	my @typemaps = ();
 	my @deps = ('Glib');
 	my %pkgconfig;
-	my %requires = (
-		'Glib::Object::Introspection' => 0,
-	);
+	my %requires = ();
 
 	eval {
 		%pkgconfig = ExtUtils::PkgConfig->find('javascriptcoregtk-3.0');
