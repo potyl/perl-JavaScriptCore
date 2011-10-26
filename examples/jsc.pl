@@ -21,7 +21,6 @@ Run JavaScript from Perl.
 use strict;
 use warnings;
 
-use Glib;
 use JavaScriptCore;
 use JSON qw(decode_json);
 use Data::Dumper;
