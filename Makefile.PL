@@ -38,6 +38,16 @@ sub main {
 		return;
 	}
 
+	eval {
+		my %conf = ExtUtils::PkgConfig->find('glib-2.0');
+        $pkgconfig{cflags} .= $conf{cflags};
+        $pkgconfig{libs} .= $conf{libs};
+	};
+	if (my $error = $@) {
+		warn "FAIL: ", $error;
+		return;
+	}
+
 	foreach my $module (keys %requires) {
 		my $version = $requires{$module};
 		eval "use $module '$version'; 1;" or die "Can't load $module $version\n";
