@@ -13,27 +13,48 @@ BEGIN {
 
 
 sub main {
-    my $context = JavaScriptCore::JSContext->Create();
-    isa_ok($context, 'JavaScriptCore::JSContext');
+    my $ctx = JavaScriptCore::JSContext->Create();
+    isa_ok($ctx, 'JavaScriptCore::JSContext');
 
-    my $syntax_check = $context->CheckScriptSyntax("x = 1;", __FILE__, __LINE__);
-    ok($syntax_check, "Syntax is OK");
+    test_check_script($ctx);
+    test_evaluate($ctx);
 
-    $syntax_check = $context->CheckScriptSyntax("x = ", __FILE__, __LINE__);
-    ok(!$syntax_check, "Syntax is NOT OK");
-
-    my $value = $context->EvaluateScript("2 + 4", undef, __FILE__, __LINE__);
-    is($value->GetType, 'number', "EvaluateScript returned a number");
-    ok($value->IsNumber, "EvaluateScript return value");
-
-    $value = $context->EvaluateScript("+ 2 + ;", undef, __FILE__, __LINE__);
-    is($value->GetType, 'number', "EvaluateScript returned a number");
-    ok($value->IsNumber, "EvaluateScript return value");
-
-    $context->GarbageCollect();
+    $ctx->GarbageCollect();
 
     return 0;
 }
 
+
+sub test_check_script {
+    my ($ctx) = @_;
+
+    my $syntax_check = $ctx->CheckScriptSyntax("x = 1;", __FILE__, __LINE__);
+    ok($syntax_check, "Syntax is OK");
+
+    $syntax_check = $ctx->CheckScriptSyntax("x = ", __FILE__, __LINE__);
+    ok(!$syntax_check, "Syntax is NOT OK");
+}
+
+
+sub test_evaluate {
+    my ($ctx) = @_;
+
+    my $value = $ctx->EvaluateScript("2 + 4", undef, __FILE__, __LINE__);
+    is($value->GetType, 'number', "EvaluateScript returned a number");
+    ok($value->IsNumber, "EvaluateScript return value");
+
+    my $passed = 0;
+    my $line;
+    eval {
+        $line = __LINE__ + 1;
+        $value = $ctx->EvaluateScript("+ 2 + ;", undef, __FILE__, $line);
+        1;
+    } or do {
+        my $error = $@ || '';
+        my $file = quotemeta(__FILE__);
+        $passed = 1 if $error =~ /[{,]"line":$line[,}]/ and $error =~ /[{,]"sourceURL":"$file"[,}]/;
+    };
+    ok($passed, "EvaluateScript throws error");
+}
 
 exit main() unless caller;
