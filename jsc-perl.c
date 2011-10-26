@@ -1,4 +1,6 @@
 #include <jsc-perl.h>
+#include <glib.h>
+
 
 const char*
 jsc_perl_get_type (JSContextRef ctx, JSValueRef value) {
