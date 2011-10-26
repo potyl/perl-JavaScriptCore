@@ -24,7 +24,7 @@ sub main {
 
 	# Find the C libraries
 	my @typemaps = ();
-	my @deps = ('Glib');
+	my @deps = ();
 	my %pkgconfig;
 	my %requires = ();
 
