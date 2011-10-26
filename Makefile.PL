@@ -76,7 +76,6 @@ sub main {
 		File::Spec->catfile(cwd(), 'typemaps'),
 	);
 	$DEPENDS->install(
-		File::Spec->catfile('build', 'jsc-autogen.h'),
 		'jsc-perl.h',
 	);
 	$DEPENDS->save_config(File::Spec->catfile('build', 'IFiles.pm'));
