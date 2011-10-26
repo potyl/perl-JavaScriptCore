@@ -245,3 +245,12 @@ jsc_perl_sv_is_defined (SV *sv)
 	return FALSE;
 }
 
+
+void
+jsc_perl_call_xs (pTHX_ XSPROTO(subaddr), CV *cv, SV **mark) {
+    dSP;
+    PUSHMARK(mark);
+    (*subaddr)(aTHX_ cv);
+    PUTBACK;
+}
+
