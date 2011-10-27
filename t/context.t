@@ -50,11 +50,16 @@ sub test_evaluate {
         $ctx->EvaluateScript("+ 2 + ;", undef, __FILE__, $line);
         1;
     } or do {
-        my $error = $@ || '';
-        my $file = quotemeta(__FILE__);
-        $passed = 1 if $error =~ /[{,]"line":$line[,}]/ and $error =~ /[{,]"sourceURL":"$file"[,}]/;
+        my $error = $@ || {};
+        delete $error->{sourceId}; # Random stuff that we can't check
+        my $expected = {
+            line      => $line,
+            sourceURL => __FILE__,
+        };
+        $passed = is_deeply($error, $expected, "Exception matches");
     };
-    ok($passed, "EvaluateScript throws error");
+
+    fail("EvaluateScript throws error") unless $passed;
 }
 
 exit main() unless caller;
