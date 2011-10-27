@@ -30,6 +30,7 @@ char* jsc_perl_js_value_to_json (JSContextRef ctx, JSValueRef value);
 SV* jsc_perl_js_value_to_sv (JSContextRef ctx, JSValueRef value);
 bool jsc_perl_sv_is_defined (SV *sv);
 void jsc_perl_call_xs (pTHX_ XSPROTO(subaddr), CV *cv, SV **mark);
+void jsc_perl_throw_exception (JSContext ctx, JSValueRef exception);
 
 
 #endif /* _JSC_PERL_H_ */
