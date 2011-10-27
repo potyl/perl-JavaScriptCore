@@ -63,3 +63,4 @@ T_JSP_VALUE
      sv_setref_pv($arg, \"JavaScriptCore::JSValue\", (void * const) $var);
      JSGlobalContextRetain((JSGlobalContextRef) $var->ctx);
      JSValueProtect(ctx, $var->val);
+
