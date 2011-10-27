@@ -74,14 +74,8 @@ EvaluateScript (JSContext ctx, SV *sv_script, SV *sv_this = NULL, SV *sv_source 
         p_value->val = value;
         RETVAL = p_value;
 
-    POSTCALL:
-        printf("PostCall\n");
-
     OUTPUT:
         RETVAL
-
-    CLEANUP:
-        printf("cleanup\n");
 
 
 SV*
