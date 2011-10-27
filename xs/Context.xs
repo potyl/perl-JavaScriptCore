@@ -51,27 +51,14 @@ EvaluateScript (JSContext ctx, SV *sv_script, SV *sv_this = NULL, SV *sv_source 
         if (script != NULL) JSStringRelease(script);
         if (source != NULL) JSStringRelease(source);
 
-        /* Raise an exception */
-        if (exception != NULL) {
-            char  *error;
 
-            /*
-            SV *err;
-            err = jsc_perl_js_value_to_sv(ctx, exception);
-            Perl_croak_sv(aTHX_ err);
-            */
-
-            error = jsc_perl_js_value_to_json(ctx, exception);
-            printf("CROAK\n");
-            croak("%s", error);/* How can we throw an SV ? */
-            free(error);/* FIXME is this free called ? */
-        }
+        if (exception != NULL) jsc_perl_throw_exception(ctx, exception);
 
         p_value = malloc(sizeof(JSPValue));
         p_value->ctx = ctx;
         JSGlobalContextRetain((JSGlobalContextRef) p_value->ctx);
-
         p_value->val = value;
+
         RETVAL = p_value;
 
     OUTPUT:
