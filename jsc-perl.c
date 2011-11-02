@@ -262,10 +262,10 @@ jsc_perl_throw_exception (JSContext ctx, JSValueRef exception) {
     SV *sv_exception;
     SV *eval_error;
 
-    /* FIXME should we call sv_2mortal() on sv_exception or free the exception ? */
     sv_exception = jsc_perl_js_value_to_sv(ctx, exception);
     eval_error = get_sv("@", GV_ADD);
     sv_setsv(eval_error, sv_exception);
+    SvREFCNT_dec(sv_exception);
     croak(NULL);
 }
 
