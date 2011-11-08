@@ -254,6 +254,56 @@ ToPerl (JSPValue *self)
         RETVAL
 
 
+SV*
+ToBoolean (JSPValue *self)
+    CODE:
+        RET_BOOL(JSValueToBoolean(self->ctx, self->val));
+
+    OUTPUT:
+        RETVAL
+
+
+SV*
+ToNumber (JSPValue *self)
+    PREINIT:
+        JSValueRef exception;
+
+    CODE:
+        exception = NULL;
+        RETVAL = newSVnv(JSValueToNumber(self->ctx, self->val, &exception));
+        if (exception != NULL) jsc_perl_throw_exception(self->ctx, exception);
+
+    OUTPUT:
+        RETVAL
+
+
+SV*
+ToString (JSPValue *self)
+    PREINIT:
+        JSStringRef js_value;
+        JSValueRef exception;
+
+    CODE:
+        exception = NULL;
+        js_value = JSValueToStringCopy(self->ctx, self->val, &exception);
+        if (exception != NULL) jsc_perl_throw_exception(self->ctx, exception);
+
+        if (js_value == NULL) {
+            RETVAL = &PL_sv_undef;
+        }
+        else {
+            char *str;
+
+            str = jsc_perl_js_str_to_str(js_value);
+            JSStringRelease(js_value);
+            RETVAL = newSVpv(str, 0);
+            free(str);
+        }
+
+    OUTPUT:
+        RETVAL
+
+
 void
 DESTROY (JSPValue *self)
     CODE:
