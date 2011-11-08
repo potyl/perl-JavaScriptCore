@@ -42,6 +42,7 @@ sub test_evaluate {
     my $value = $ctx->EvaluateScript("2 + 4", undef, __FILE__, __LINE__);
     is($value->GetType, 'number', "EvaluateScript returned a number");
     ok($value->IsNumber, "EvaluateScript return value");
+    is($value->ToPerl, 6, "EvaluateScript to perl");
 
     my $passed = 0;
     my $line;
