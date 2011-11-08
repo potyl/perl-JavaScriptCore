@@ -50,8 +50,6 @@ EvaluateScript (JSContext ctx, SV *sv_script, SV *sv_this = NULL, SV *sv_source 
         value = JSEvaluateScript(ctx, script, thisObject, source, line, &exception);
         if (script != NULL) JSStringRelease(script);
         if (source != NULL) JSStringRelease(source);
-
-
         if (exception != NULL) jsc_perl_throw_exception(ctx, exception);
 
         p_value = malloc(sizeof(JSPValue));
