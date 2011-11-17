@@ -19,7 +19,7 @@ jsc_perl_get_type (JSContextRef ctx, JSValueRef value) {
         case kJSTypeObject:
             return "object";
         default:
-            return "????";
+            return "unknown";
     }
 }
 
