@@ -304,6 +304,34 @@ ToString (JSPValue *self)
         RETVAL
 
 
+JSPObject*
+ToObject (JSPValue *self)
+    PREINIT:
+        JSObjectRef js_object;
+        JSValueRef  exception;
+        JSPObject   *p_object;
+
+    CODE:
+        exception = NULL;
+        js_object = JSValueToObject(self->ctx, self->val, &exception);
+        if (exception != NULL) jsc_perl_throw_exception(self->ctx, exception);
+
+        if (js_object == NULL) {
+            RETVAL = NULL;
+        }
+        else {
+            p_object = malloc(sizeof(JSPObject));
+            p_object->ctx = self->ctx;
+            JSGlobalContextRetain((JSGlobalContextRef) p_object->ctx);
+
+            p_object->obj = js_object;
+            RETVAL = p_object;
+        }
+
+    OUTPUT:
+        RETVAL
+
+
 void
 DESTROY (JSPValue *self)
     CODE:

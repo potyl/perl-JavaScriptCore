@@ -93,6 +93,20 @@ sub test_evaluate {
     ok($value->ToPerl, "EvaluateScript to perl");
 
 
+    # Object
+    $value = $ctx->EvaluateScript("[ 100 ]", undef, __FILE__, __LINE__);
+    is($value->GetType, 'object', "EvaluateScript returning an object");
+    ok(!$value->IsUndefined, "value is not undefined");
+    ok(!$value->IsNull, "value is not null");
+    ok(!$value->IsBoolean, "value is not boolean");
+    ok(!$value->IsNumber, "value is not number");
+    ok(!$value->IsString, "value is not string");
+    ok($value->IsObject, "value is object");
+    my $js_obj = $value->ToObject;
+    is($value->ToObject, '100', "EvaluateScript string value");
+    is_deeply($value->ToPerl, [ 100 ], "EvaluateScript to perl");
+
+
     # JS compilation error
     my $passed = 0;
     my $line;
