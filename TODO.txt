@@ -1,0 +1,4 @@
+- Replace GHashTable with a HV
+- Have JSObject inherit from JSValue
+- Don't have make go through the Glib pod generator
+- Use perl exceptions when JSException are expected
