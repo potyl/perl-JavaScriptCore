@@ -145,6 +145,12 @@ sub test_object {
     ok(!$var->IsNumber, "$type is number?");
     ok(!$var->IsString, "$type is string?");
     ok($var->IsObject, "$type is object?");
+
+    my $obj = $var->ToObject;
+    ok($obj->isa('JavaScriptCore::JSObject'), "ToObject returns a JSObject");
+    my $prototype = $obj->GetPrototype();
+    is($prototype->GetType, 'object', "Prototype is an object");
+    is_deeply($prototype->ToPerl, {}, "Prototype as perl value");
 }
 
 exit main() unless caller;
