@@ -93,6 +93,7 @@ sub test_evaluate {
     ok($value->ToPerl, "EvaluateScript to perl");
 
 
+    # JS compilation error
     my $passed = 0;
     my $line;
     eval {
