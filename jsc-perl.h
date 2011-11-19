@@ -12,6 +12,7 @@
 #define JSContextGroup  JSContextGroupRef
 #define JSContext       JSContextRef
 #define JSValue         JSValueRef
+#define JSObject        JSObjectRef
 
 
 typedef struct _JSPValue {
@@ -19,6 +20,10 @@ typedef struct _JSPValue {
     JSValue   val;
 } JSPValue;
 
+typedef struct _JSPObject {
+    JSContext ctx;
+    JSObject  obj;
+} JSPObject;
 
 #define jsc_perl_sv_is_ref(sv) (jsc_perl_sv_is_defined(sv) && SvROK(sv))
 #define JSC_PERL_CALL_BOOT(name) jsc_perl_call_xs(aTHX_ name, cv, mark);

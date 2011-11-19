@@ -29,6 +29,7 @@ sub main {
     test_string($ctx, "hello");
 
     test_json($ctx, '[ "a", 11 ]');
+    test_object($ctx);
 
     $ctx->GarbageCollect();
 
@@ -131,5 +132,19 @@ sub test_json {
     ok($var->IsObject, "$type is object?");
 }
 
+
+sub test_object {
+    my ($ctx) = @_;
+
+    my $type = 'object';
+    my $var = $ctx->EvaluateScript("[ 'two', 2 ]", undef, __FILE__, __LINE__);
+    is($var->GetType, "object", "$type type");
+    ok(!$var->IsUndefined, "$type is undefined ?");
+    ok(!$var->IsNull, "$type is null?");
+    ok(!$var->IsBoolean, "$type is boolean?");
+    ok(!$var->IsNumber, "$type is number?");
+    ok(!$var->IsString, "$type is string?");
+    ok($var->IsObject, "$type is object?");
+}
 
 exit main() unless caller;

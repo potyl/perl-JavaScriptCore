@@ -3,6 +3,7 @@ JSGlobalContext  T_JS_GLOBAL_CONTEXT
 JSContextGroup   T_JS_CONTEXT_GROUP
 JSContext        T_JS_CONTEXT
 JSPValue*        T_JSP_VALUE
+JSPObject*       T_JSP_OBJECT
 
 INPUT
 
@@ -42,6 +43,15 @@ T_JSP_VALUE
      }
 
 
+T_JSP_OBJECT
+     if (!jsc_perl_sv_is_ref($arg)) {
+          $var = NULL;
+     }
+     else {
+          $var = INT2PTR($type, SvIV(SvRV($arg)));
+     }
+
+
 OUTPUT
 
 T_JS_GLOBAL_CONTEXT
@@ -64,3 +74,8 @@ T_JSP_VALUE
      JSGlobalContextRetain((JSGlobalContextRef) $var->ctx);
      JSValueProtect($var->ctx, $var->val);
 
+
+T_JSP_OBJECT
+     sv_setref_pv($arg, \"JavaScriptCore::JSObject\", (void * const) $var);
+     JSGlobalContextRetain((JSGlobalContextRef) $var->ctx);
+     JSValueProtect($var->ctx, $var->obj);
