@@ -93,6 +93,19 @@ sub test_evaluate {
     ok($value->ToPerl, "EvaluateScript to perl");
 
 
+    # String
+    $value = $ctx->EvaluateScript("'100'", undef, __FILE__, __LINE__);
+    is($value->GetType, 'string', "EvaluateScript returning a string");
+    ok(!$value->IsUndefined, "value is not undefined");
+    ok(!$value->IsNull, "value is not null");
+    ok(!$value->IsBoolean, "value is not boolean");
+    ok(!$value->IsNumber, "value is not number");
+    ok($value->IsString, "value is string");
+    ok(!$value->IsObject, "value is not object");
+    is($value->ToString, '100', "EvaluateScript string value");
+    is($value->ToPerl, '100', "EvaluateScript to perl");
+
+
     # Object
     $value = $ctx->EvaluateScript("[ 100 ]", undef, __FILE__, __LINE__);
     is($value->GetType, 'object', "EvaluateScript returning an object");
