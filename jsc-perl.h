@@ -25,8 +25,9 @@ typedef struct _JSPObject {
     JSObject  obj;
 } JSPObject;
 
-#define jsc_perl_sv_is_ref(sv) (jsc_perl_sv_is_defined(sv) && SvROK(sv))
-#define JSC_PERL_CALL_BOOT(name) jsc_perl_call_xs(aTHX_ name, cv, mark);
+#define jsc_perl_sv_is_ref(sv)    (jsc_perl_sv_is_defined(sv) && SvROK(sv))
+#define jsc_sv_to_js(TYPE, VAR)   (jsc_perl_sv_is_ref(VAR) ? INT2PTR(TYPE, SvIV(SvRV(VAR))) : NULL)
+#define JSC_PERL_CALL_BOOT(name)  jsc_perl_call_xs(aTHX_ name, cv, mark)
 
 
 const char* jsc_perl_get_type (JSContextRef ctx, JSValueRef value);
