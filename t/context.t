@@ -116,7 +116,7 @@ sub test_evaluate {
     ok(!$value->IsString, "value is not string");
     ok($value->IsObject, "value is object");
     my $js_obj = $value->ToObject;
-    is($value->ToObject, '100', "EvaluateScript string value");
+    isa_ok($js_obj, 'JavaScriptCore::JSObject', "ToObject returns a valid object");
     is_deeply($value->ToPerl, [ 100 ], "EvaluateScript to perl");
 
 
