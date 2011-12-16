@@ -8,48 +8,23 @@ JSPObject*       T_JSP_OBJECT
 INPUT
 
 T_JS_GLOBAL_CONTEXT
-     if (!jsc_perl_sv_is_ref($arg)) {
-          $var = NULL;
-     }
-     else {
-          $var = INT2PTR($type, SvIV(SvRV($arg)));
-     }
+    $var = jsc_sv_to_js($type, $arg);
 
 
 T_JS_CONTEXT_GROUP
-     if (!jsc_perl_sv_is_ref($arg)) {
-          $var = NULL;
-     }
-     else {
-          $var = INT2PTR($type, SvIV(SvRV($arg)));
-     }
+    $var = jsc_sv_to_js($type, $arg);
 
 
 T_JS_CONTEXT
-     if (!jsc_perl_sv_is_ref($arg)) {
-          $var = NULL;
-     }
-     else {
-          $var = INT2PTR($type, SvIV(SvRV($arg)));
-     }
+    $var = jsc_sv_to_js($type, $arg);
 
 
 T_JSP_VALUE
-     if (!jsc_perl_sv_is_ref($arg)) {
-          $var = NULL;
-     }
-     else {
-          $var = INT2PTR($type, SvIV(SvRV($arg)));
-     }
+    $var = jsc_sv_to_js($type, $arg);
 
 
 T_JSP_OBJECT
-     if (!jsc_perl_sv_is_ref($arg)) {
-          $var = NULL;
-     }
-     else {
-          $var = INT2PTR($type, SvIV(SvRV($arg)));
-     }
+     $var = jsc_sv_to_js($type, $arg);
 
 
 OUTPUT
